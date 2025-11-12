@@ -87,9 +87,10 @@ void write_results(const ProblemInstance& inst,
     const std::vector<Bin>& sol,
     const double& running_time,
     const std::string& instance_path,
-    const float& of,
-    const std::string& filename = "Results.txt") {
+    const double& of,
+    const std::string& method) {
 
+    std::string filename = "Results_" + method + ".txt";
     std::ofstream out_file;
     bool file_exists = std::ifstream(filename).good();
 
@@ -112,8 +113,6 @@ void write_results(const ProblemInstance& inst,
 
     std::filesystem::path p(instance_path);
     std::string instance_name = p.stem().string();
-
-    // Extract each objective individually 
 
     int n_bins = sol.size(); // Number of bins 
     double sch = (of - inst.w1 * n_bins) / inst.w2; // Scheduling objective

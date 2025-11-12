@@ -12,11 +12,11 @@
 #include <limits>
 #include <vector>
 
-float item_insertion(std::vector<Bin>& sol,
+double item_insertion(std::vector<Bin>& sol,
 	const ProblemInstance& inst,
-	const float of) {
+	const double of) {
 
-	float best_of = of;
+	double best_of = of;
 	int len = sol.size();
 
 	// Auxiliary variables to mark the best item position
@@ -66,7 +66,7 @@ float item_insertion(std::vector<Bin>& sol,
 
 				// Compute the objective function
 
-				float new_of = compute_objective(sol, inst);
+				double new_of = compute_objective(sol, inst);
 
 				if (new_of < best_of) {
 					best_of = new_of;
@@ -162,11 +162,11 @@ float item_insertion(std::vector<Bin>& sol,
 	return best_of;
 }
 
-float item_swap(std::vector<Bin>& sol,
+double item_swap(std::vector<Bin>& sol,
 	const ProblemInstance& inst,
-	const float of) {
+	const double of) {
 
-	float best_of = of;
+	double best_of = of;
 	int len = sol.size();
 
 	// Auxiliary variables to execute the swap 
@@ -200,7 +200,7 @@ float item_swap(std::vector<Bin>& sol,
 							sol[i].items[j] = itm2;
 							sol[k].items[x] = itm1;
 
-							float new_of = compute_objective(sol, inst);
+							double new_of = compute_objective(sol, inst);
 
 							if (new_of < best_of) {
 								best_of = new_of;
@@ -240,11 +240,11 @@ float item_swap(std::vector<Bin>& sol,
 	return best_of;
 }
 
-float bin_insertion(std::vector<Bin>& sol,
+double bin_insertion(std::vector<Bin>& sol,
 	const ProblemInstance& inst,
-	const float of) {
+	const double of) {
 
-	float best_of = of;
+	double best_of = of;
 	int len = sol.size();
 
 	// Auxiliary variables to mark the best insetion position
@@ -266,7 +266,7 @@ float bin_insertion(std::vector<Bin>& sol,
 
 				// Compute the objective function
 
-				float new_of = compute_objective(sol, inst);
+				double new_of = compute_objective(sol, inst);
 
 				if (new_of < best_of) {
 					best_of = new_of;
@@ -301,11 +301,11 @@ float bin_insertion(std::vector<Bin>& sol,
 	return best_of;
 }
 
-float bin_swap(std::vector<Bin>& sol,
+double bin_swap(std::vector<Bin>& sol,
 	const ProblemInstance& inst,
-	const float of) {
+	const double of) {
 
-	float best_of = of;
+	double best_of = of;
 	int len = sol.size();
 
 	// Auxiliary variables to mark the best swap
@@ -322,7 +322,7 @@ float bin_swap(std::vector<Bin>& sol,
 
 				// Compute the objective function
 
-				float new_of = compute_objective(sol, inst);
+				double new_of = compute_objective(sol, inst);
 
 				if (new_of < best_of) {
 					best_of = new_of;
@@ -342,11 +342,11 @@ float bin_swap(std::vector<Bin>& sol,
 	return best_of;
 }
 
-float bin_merge(std::vector<Bin>& sol,
+double bin_merge(std::vector<Bin>& sol,
 	const ProblemInstance& inst,
-	const float of) {
+	const double of) {
 
-	float best_of = of;
+	double best_of = of;
 	int len = sol.size();
 
 	// Auxiliary variables to mark the best bin merge 
@@ -370,7 +370,7 @@ float bin_merge(std::vector<Bin>& sol,
 
 				// Compute the objective function
 
-				float new_of = compute_objective(sol, inst);
+				double new_of = compute_objective(sol, inst);
 
 				if (new_of < best_of) {
 					best_of = new_of;
@@ -406,7 +406,7 @@ float bin_merge(std::vector<Bin>& sol,
 	return best_of;
 }
 
-float main_vnd(std::vector<Bin>& sol, const ProblemInstance& inst, float of) {
+double main_vnd(std::vector<Bin>& sol, const ProblemInstance& inst, double of) {
 
 	bool improvement;
 
@@ -415,7 +415,7 @@ float main_vnd(std::vector<Bin>& sol, const ProblemInstance& inst, float of) {
 
 		// Try item insertion (N1)
 
-		float new_of = item_insertion(sol, inst, of);
+		double new_of = item_insertion(sol, inst, of);
 
 		if (new_of < of) {
 			of = new_of;

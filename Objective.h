@@ -32,10 +32,10 @@ void PrintSolution(const std::vector<Bin>& sol) {
 
 // COMPUTE THE OBJECTIVE FUNCTION VALUE
 
-float compute_objective(const std::vector<Bin>& sol, const ProblemInstance& inst) {
+double compute_objective(const std::vector<Bin>& sol, const ProblemInstance& inst) {
 
-    float ct = 0.0f;
-    float Tmax = 0.0f;
+    double ct = 0.0;
+    double Tmax = 0.0;
     int len = sol.size();
 
     for (int i = 0; i < len; ++i) {
@@ -43,7 +43,7 @@ float compute_objective(const std::vector<Bin>& sol, const ProblemInstance& inst
 
         for (int j = 0; j < sol[i].items.size(); ++j) {
             ct += inst.t;
-            float T = std::max(0.0f, ct - inst.d[sol[i].items[j]]);
+            double T = std::max(0.0, ct - inst.d[sol[i].items[j]]);
 
             if (T > Tmax) {
                 Tmax = T;
@@ -51,7 +51,7 @@ float compute_objective(const std::vector<Bin>& sol, const ProblemInstance& inst
         }
     }
 
-    float of = (inst.w1 * len) + (inst.w2 * Tmax);
+    double of = (inst.w1 * len) + (inst.w2 * Tmax);
 
     return of;
 }

@@ -13,7 +13,7 @@
 #include "Data.h"
 #include "Objective.h"
 
-float main_constructive(std::vector<Bin>& sol,
+double main_constructive(std::vector<Bin>& sol,
     const ProblemInstance& inst) {
     // Define the set of unscheduled items 
 
@@ -22,13 +22,13 @@ float main_constructive(std::vector<Bin>& sol,
 
     // Define the best objective value 
 
-    float best_objective = 0.0f;
+    double best_objective = 0.0;
 
     while (!U.empty()) {
         // Auxiliary variables for each iteration
 
         bool open_bin = true;
-        float min_objective = std::numeric_limits<float>::max();
+        double min_objective = std::numeric_limits<double>::max();
         int best_pos_schedule = 0;
         int best_pos_bin = 0;
         int len = sol.size();
@@ -44,7 +44,7 @@ float main_constructive(std::vector<Bin>& sol,
 
             // Compute the objective function
 
-            float of = compute_objective(sol, inst);
+            double of = compute_objective(sol, inst);
 
             if (of < min_objective) {
                 min_objective = of;

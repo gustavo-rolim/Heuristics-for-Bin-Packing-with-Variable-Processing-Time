@@ -88,7 +88,7 @@ void knapsack_solver(Bin& new_bin,
 	}
 }
 
-float build_solution(std::vector<Bin>& current_sol,
+double build_solution(std::vector<Bin>& current_sol,
 	double**& dp,
 	const ProblemInstance& inst,
 	std::vector<std::pair<int, double>>& m) {
@@ -112,18 +112,18 @@ float build_solution(std::vector<Bin>& current_sol,
 			});
 	}
 
-	float of = compute_objective(current_sol, inst);
+	double of = compute_objective(current_sol, inst);
 
 	return of;
 }
 
-void critical_item(std::pair<int, float>& tardy_item,
+void critical_item(std::pair<int, double>& tardy_item,
 	const ProblemInstance& inst,
 	const std::vector<Bin>& sol) {
 	// Identify the critical item for pseudo-price update
 
-	float ct = 0.0f; // Completion time
-	float Tmax = 0.0f; // Maximum Tardiness
+	double ct = 0.0f; // Completion time
+	double Tmax = 0.0f; // Maximum Tardiness
 	int len = sol.size(); // Solution vector length 
 
 	for (int i = 0; i < len; ++i) {
@@ -131,7 +131,7 @@ void critical_item(std::pair<int, float>& tardy_item,
 
 		for (int j = 0; j < sol[i].items.size(); ++j) {
 			ct += inst.t;
-			float T = std::max(0.0f, ct - inst.d[sol[i].items[j]]);
+			double T = std::max(0.0, ct - inst.d[sol[i].items[j]]);
 
 			if (T > Tmax) {
 				Tmax = T;
@@ -142,17 +142,17 @@ void critical_item(std::pair<int, float>& tardy_item,
 	}
 }
 
-void update_pseudo_prices(const float eta1,
-	const float eta2,
-	const float eta3,
-	const float epsilon,
+void update_pseudo_prices(const double eta1,
+	const double eta2,
+	const double eta3,
+	const double epsilon,
 	const ProblemInstance& inst,
 	std::vector<Bin>& sol,
 	std::vector<std::pair<int, double>>& m,
 	std::mt19937& gen) {
 	// Identify the critical item 
 
-	std::pair<int, float> tardy_item;
+	std::pair<int, double> tardy_item;
 	critical_item(tardy_item, inst, sol);
 
 	// Create a distribution for eta calculation
@@ -185,15 +185,15 @@ void update_pseudo_prices(const float eta1,
 	}
 }
 
-float main_svc(std::vector<Bin>& sol,
+double main_svc(std::vector<Bin>& sol,
 	const ProblemInstance& inst,
 	std::mt19937& gen) {
 	// Parameter declaration 
 
-	float epsilon = 1.0f;
-	float eta1 = 100.0f;
-	float eta2 = 0.5f;
-	float eta3 = 0.3f;
+	double epsilon = 1.0;
+	double eta1 = 50.0;
+	double eta2 = 0.3;
+	double eta3 = 1.0;
 	int iter_max = 1000;
 
 	// Initialize the vector of pseudo-prices 
@@ -217,7 +217,7 @@ float main_svc(std::vector<Bin>& sol,
 
 	// Store best objective value
 
-	float best_of = std::numeric_limits<float>::max();
+	double best_of = std::numeric_limits<double>::max();
 
 	// Iteratevely construct new solutions
 
@@ -230,7 +230,7 @@ float main_svc(std::vector<Bin>& sol,
 
 		// Build a new solution
 
-		float of = build_solution(current_sol, dp, inst, m);
+		double of = build_solution(current_sol, dp, inst, m);
 
 		// Update pseudo-prices 
 
@@ -242,7 +242,6 @@ float main_svc(std::vector<Bin>& sol,
 		// Solution acceptance 
 
 		if (of < best_of) {
-			of = main_vnd(sol, inst, of);
 			best_of = of;
 			sol = current_sol;
 		}

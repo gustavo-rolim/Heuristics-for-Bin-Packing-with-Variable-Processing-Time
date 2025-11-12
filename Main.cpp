@@ -19,7 +19,7 @@ int main(int argc,
 	// ======================
 	// 1. COMMAND LINE VALIDATION
 	// ======================
-
+	
 	if (argc != 4) {
 		std::cerr << "Please, use the following format:\n<executable_file> <instance_file> <parameter_file> <solution_method>" << std::endl;
 		return EXIT_FAILURE;
@@ -63,7 +63,7 @@ int main(int argc,
 	// ======================
 
 	std::vector<Bin> sol; 
-	float of = 0.0f; 
+	double of = 0.0; 
 	auto start_time = std::chrono::high_resolution_clock::now(); 
 
 	if (method == "heu") {
@@ -90,5 +90,5 @@ int main(int argc,
 	// 5. WRITE RESULTS
 	// ======================
 
-	write_results(inst, sol, running_time, instance_path, of);
+	write_results(inst, sol, running_time, instance_path, of, method);
 }

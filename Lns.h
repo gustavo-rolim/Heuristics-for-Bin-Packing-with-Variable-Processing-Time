@@ -161,7 +161,7 @@ void tardiness_removal(std::vector<Bin>& sol,
             for (int j = 0; j < sol[i].items.size(); ++j) {
                 ct += inst.t;
                 int itm = sol[i].items[j];
-                float T = std::max(0, ct - inst.d[itm]);
+                double T = std::max(0, ct - inst.d[itm]);
 
                 if (T > Tmax) {
                     Tmax = T;
@@ -264,18 +264,18 @@ void apply_removal_heuristic(std::vector<Bin>& sol,
     }
 }
 
-float greedy_insertion(std::vector<Bin>& sol,
+double greedy_insertion(std::vector<Bin>& sol,
     const ProblemInstance& inst,
     std::vector<int>& R) {
     // GREEDY INSERTION
 
-    float best_objective = 0.0f;
+    double best_objective = 0.0f;
 
     while (!R.empty()) {
         // Auxiliary variables for each iteration
 
         bool open_bin = true;
-        float min_objective = std::numeric_limits<float>::max();
+        double min_objective = std::numeric_limits<double>::max();
         int best_pos_schedule = 0;
         int best_pos_bin = 0;
         int len = sol.size();
@@ -291,7 +291,7 @@ float greedy_insertion(std::vector<Bin>& sol,
 
             // Compute the objective function
 
-            float of = compute_objective(sol, inst);
+            double of = compute_objective(sol, inst);
 
             if (of < min_objective) {
                 min_objective = of;
@@ -363,7 +363,7 @@ float greedy_insertion(std::vector<Bin>& sol,
     return best_objective;
 }
 
-float apply_insertion_heuristic(std::vector<Bin>& sol,
+double apply_insertion_heuristic(std::vector<Bin>& sol,
     const ProblemInstance& inst,
     std::vector<int>& R,
     std::mt19937& gen) {
@@ -380,19 +380,18 @@ float apply_insertion_heuristic(std::vector<Bin>& sol,
             });
     }
 
-    float best_objective = greedy_insertion(sol, inst, R);
+    double best_objective = greedy_insertion(sol, inst, R);
 
     return best_objective;
 }
 
-float main_lns(std::vector<Bin>& sol,
+double main_lns(std::vector<Bin>& sol,
     const ProblemInstance& inst,
-    const float of,
+    const double of,
     std::mt19937& gen) {
     // PARAMETER DECLARATION
 
-    const float q = 0.2f;
-    const float time_limit_seconds = 5.0f;
+    const double q = 0.35;
     int nD = std::ceil(q * inst.n);
 
     // SET CURRENT SOLUTION 
@@ -403,9 +402,9 @@ float main_lns(std::vector<Bin>& sol,
 
     // SET CURRENT OBJECTIVE
 
-    float curr_of = of;
-    float inc_of = of;
-    float best_of = of;
+    double curr_of = of;
+    double inc_of = of;
+    double best_of = of;
 
     // SET INITIAL TEMPERATURE
 
@@ -436,7 +435,7 @@ float main_lns(std::vector<Bin>& sol,
 
         // SOLUTION ACCEPTANCE
 
-        float delta = curr_of - inc_of;
+        double delta = curr_of - inc_of;
 
         if (delta < 0) {
             inc_sol = curr_sol;
@@ -465,6 +464,8 @@ float main_lns(std::vector<Bin>& sol,
 
         T = T_init * (1 - iter / max_iter);
     }
+
+    sol = best_sol;
 
     return best_of;
 }
