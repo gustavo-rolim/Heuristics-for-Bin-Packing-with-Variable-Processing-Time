@@ -22,6 +22,7 @@ The solver is written in C++ and implements the following algorithms: a **Constr
 
 * `p.txt`: **Input parameters file** required for defining instance configuration.
 * `Summary_02_08.xlsx`: Tabulated computational results over the benchmark instances.
+* `Results/`: Raw computational results grouped by parameter configuration. Each subdirectory is identified by the combination of processing time (`t`), setup time (`s`), and weights (`w1`, `w2`).
 ---
 
 ## 2. Usage
